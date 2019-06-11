@@ -62,5 +62,5 @@ def CheckReport() {
 	sh "md5sum mobile/apk/${env.APP} > hash"
 	def hash=readFile('hash').trim()
 	
-	sh "curl http://localhost:${env.PORT}/StaticAnalyzer/?name=${env.APP}&type=apk&checksum=${hash} -H \"Authorization:${env.APIKEY}\""
+	sh "mobile/test/runUAT.sh localhost:${env.PORT}/StaticAnalyzer/?name=${env.APP}&type=apk&checksum=${hash}"
 }
