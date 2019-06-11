@@ -8,6 +8,8 @@ pipeline {
     	}
 	environment {
 		PYTHONPATH = "${WORKSPACE}"
+		APP = 'goatdroid.apk'
+		APIKEY ='3fc39aaa54925c9b4a311322d731023295e0e1618f0668695049b07924ca81ef'
 	}
    	stages {
         	stage("Deploy - Mobsf") {
@@ -50,7 +52,7 @@ def upload() {
 	def app ='goatdroid.apk'
 	def apitoken ='3fc39aaa54925c9b4a311322d731023295e0e1618f0668695049b07924ca81ef'
 	
-	sh "curl -F 'file=@mobile/apk/${app}' http://localhost:8000/api/v1/upload -H \"Authorization:${apitoken}\""
+	sh "curl -F 'file=@mobile/apk/${env.APP}' http://localhost:8000/api/v1/upload -H \"Authorization:${apitoken}\""
 }
 
 def runUAT(port) {
@@ -62,9 +64,9 @@ def CheckReport(port) {
 	def app ='goatdroid.apk'
 	def apitoken ='3fc39aaa54925c9b4a311322d731023295e0e1618f0668695049b07924ca81ef'
 	
-	sh "md5sum mobile/apk/${app} > hash"
+	sh "md5sum mobile/apk/${env.APP} > hash"
 	def hash=readFile('hash').trim()
 	sh "echo ${hash}"
 	
-	sh "curl http://localhost:8000/StaticAnalyzer/?name=${app}&type=apk&checksum=${hash} -H \"Authorization:${apitoken}\""
+	sh "curl http://localhost:8000/StaticAnalyzer/?name=${env.APP}&type=apk&checksum=${hash} -H \"Authorization:${apitoken}\""
 }
