@@ -1,7 +1,5 @@
 #!/usr/bin/groovy
 
-def app ='app.apk'
-def apitoken ='3fc39aaa54925c9b4a311322d731023295e0e1618f0668695049b07924ca81ef'
 
 pipeline {
 	agent any
