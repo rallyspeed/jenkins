@@ -53,8 +53,8 @@ def upload() {
 }
 
 def runUAT() {
-	sh "chmod 755 mobile/test/runUAT.sh"
-	sh "mobile/test/runUAT.sh ${env.PORT}"
+	sh "chmod 755 mobile/test/runUAT.sh "
+	sh "mobile/test/runUAT.sh localhost:${env.PORT}"
 }
 
 def CheckReport() {
