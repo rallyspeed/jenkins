@@ -1,5 +1,8 @@
 #!/usr/bin/groovy
 
+def app ="app.apk"
+def token ="
+
 pipeline {
 	agent any
 	options {
@@ -11,6 +14,11 @@ pipeline {
    	stages {
         	stage("Deploy - Mobsf") {
             		steps { deploy('mobsf') }
+		}
+	}
+	stages {
+        	stage("Upload APK") {
+            		steps { upload() }
 		}
 	}
 }
@@ -33,4 +41,9 @@ def deploy(environment) {
 	sh "docker ps -a -f name=${containerName} -q | xargs -r docker rm"
 	sh "docker run -d -p ${port}:8000 --name ${containerName} opensecurity/mobile-security-framework-mobsf:latest"
 
+}
+
+def upload() {
+
+	sh "curl -F 'file=@$app' http://localhost:8000/api/v1/upload -H "Authorization:$token"
 }
