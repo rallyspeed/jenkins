@@ -66,5 +66,5 @@ def CheckReport(port) {
 	def hash=readFile('hash').trim()
 	sh "echo ${hash}"
 	
-	sh "curl -F 'file=@mobile/apk/${app}' http://localhost:8000/StaticAnalyzer/?name=${app}&type=apk&checksum=${hash} -H \"Authorization:${apitoken}\""
+	sh "curl http://localhost:8000/StaticAnalyzer/?name=${app}&type=apk&checksum=${hash} -H \"Authorization:${apitoken}\""
 }
