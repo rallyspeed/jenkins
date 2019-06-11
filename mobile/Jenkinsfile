@@ -54,7 +54,7 @@ def upload() {
 
 def runUAT() {
 	sh "chmod 755 mobile/test/runUAT.sh "
-	sh "mobile/test/runUAT.sh 'http://localhost:${env.PORT}'"
+	sh "mobile/test/runUAT.sh 'http://localhost:${env.PORT}' 5"
 }
 
 def CheckReport() {
@@ -62,5 +62,5 @@ def CheckReport() {
 	sh "md5sum mobile/apk/${env.APP} > hash"
 	def hash=readFile('hash').trim()
 	
-	sh "mobile/test/runUAT.sh 'http://localhost:${env.PORT}/StaticAnalyzer/?name=${env.APP}&type=apk&checksum=${hash}'"
+	sh "mobile/test/runUAT.sh 'http://localhost:${env.PORT}/StaticAnalyzer/?name=${env.APP}&type=apk&checksum=${hash}' 10"
 }
