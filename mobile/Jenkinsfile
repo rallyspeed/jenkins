@@ -10,19 +10,20 @@ pipeline {
 		PYTHONPATH = "${WORKSPACE}"
 		APP = 'goatdroid.apk'
 		APIKEY ='3fc39aaa54925c9b4a311322d731023295e0e1618f0668695049b07924ca81ef'
+		PORT = '8000'
 	}
    	stages {
         	stage("Deploy - Mobsf") {
 			steps { deploy('mobsf') }
 		}
 		stage("Test - Mobsf") {
-            		steps { runUAT(8000) }
+            		steps { runUAT(${env.PORT}) }
 		}
 		stage("Upload APK") {
 			steps { upload() }
 		}
 		stage("Check Report") {
-			steps { CheckReport(8000) }
+			steps { CheckReport(${env.PORT}) }
 		}
 	}
 }
@@ -31,11 +32,9 @@ pipeline {
 def deploy(environment) {
 
 	def containerName = ''
-	def port = ''
 
 	if ("${environment}" == 'mobsf') {
 		containerName = "mobsf"
-		port = "8000"
 	} 
 	else {
 		println "Environment not valid"
@@ -44,29 +43,24 @@ def deploy(environment) {
 
 	sh "docker ps -f name=${containerName} -q | xargs --no-run-if-empty docker stop"
 	sh "docker ps -a -f name=${containerName} -q | xargs -r docker rm"
-	sh "docker run -d -p ${port}:8000 --name ${containerName} opensecurity/mobile-security-framework-mobsf:latest"
+	sh "docker run -d -p ${env.PORT}:8000 --name ${containerName} opensecurity/mobile-security-framework-mobsf:latest"
 
 }
 
 def upload() {
-	def app ='goatdroid.apk'
-	def apitoken ='3fc39aaa54925c9b4a311322d731023295e0e1618f0668695049b07924ca81ef'
 	
-	sh "curl -F 'file=@mobile/apk/${env.APP}' http://localhost:8000/api/v1/upload -H \"Authorization:${apitoken}\""
+	sh "curl -F 'file=@mobile/apk/${env.APP}' http://localhost:${env.PORT}/api/v1/upload -H \"Authorization:${env.APIKEY}\""
 }
 
 def runUAT(port) {
 	sh "chmod 755 mobile/test/runUAT.sh"
-	sh "mobile/test/runUAT.sh ${port}"
+	sh "mobile/test/runUAT.sh ${env.PORT}"
 }
 
 def CheckReport(port) {
-	def app ='goatdroid.apk'
-	def apitoken ='3fc39aaa54925c9b4a311322d731023295e0e1618f0668695049b07924ca81ef'
 	
 	sh "md5sum mobile/apk/${env.APP} > hash"
 	def hash=readFile('hash').trim()
-	sh "echo ${hash}"
 	
-	sh "curl http://localhost:8000/StaticAnalyzer/?name=${env.APP}&type=apk&checksum=${hash} -H \"Authorization:${apitoken}\""
+	sh "curl http://localhost:${env.PORT}/StaticAnalyzer/?name=${env.APP}&type=apk&checksum=${hash} -H \"Authorization:${env.APIKEY}\""
 }
