@@ -5,7 +5,7 @@ url=$1
 sleep_time=$2
 
 # wait for the app to start
-sleep sleep_time 
+sleep ${sleep_time}
 
 # ping the app
 status_code=$(curl --write-out %{http_code} --out /dev/null --silent ${url})
