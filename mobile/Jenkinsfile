@@ -17,13 +17,13 @@ pipeline {
 			steps { deploy('mobsf') }
 		}
 		stage("Test - Mobsf") {
-            		steps { runUAT("${env.PORT}") }
+            		steps { runUAT() }
 		}
 		stage("Upload APK") {
 			steps { upload() }
 		}
 		stage("Check Report") {
-			steps { CheckReport("${env.PORT}") }
+			steps { CheckReport() }
 		}
 	}
 }
@@ -52,12 +52,12 @@ def upload() {
 	sh "curl -F 'file=@mobile/apk/${env.APP}' http://localhost:${env.PORT}/api/v1/upload -H \"Authorization:${env.APIKEY}\""
 }
 
-def runUAT(port) {
+def runUAT() {
 	sh "chmod 755 mobile/test/runUAT.sh"
 	sh "mobile/test/runUAT.sh ${env.PORT}"
 }
 
-def CheckReport(port) {
+def CheckReport() {
 	
 	sh "md5sum mobile/apk/${env.APP} > hash"
 	def hash=readFile('hash').trim()
