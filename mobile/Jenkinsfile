@@ -52,7 +52,7 @@ def upload() {
 def scan() {
 	def app ='app.apk'
 	def token ='563d64fc5054d3b239ac0419f1d6b2378465f5c80e1778c283eb1e3265bdd7ae'
-	def hash =''
+	def hash ='d7f54dc1d34759b8c25f71c727b413ff'
 	
 	sh 'curl -X POST --url http://localhost:8000/api/v1/scan --data "scan_type=apk&file_name=${app}&hash=${hash} -H "Authorization:${token}"'
 }
