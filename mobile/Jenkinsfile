@@ -16,9 +16,6 @@ pipeline {
 		stage("Upload APK") {
 			steps { upload() }
 		}
-		stage("Scan APK") {
-			steps { scan() }
-		}
 	}
 }
 
