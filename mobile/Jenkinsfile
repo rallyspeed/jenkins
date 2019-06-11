@@ -48,7 +48,7 @@ def upload() {
 	def token ='3fc39aaa54925c9b4a311322d731023295e0e1618f0668695049b07924ca81ef'
 	
 	sh "echo ${token}"
-	sh "curl -F \"file=@mobile/${app}\" http://localhost:8000/api/v1/upload -H \"Authorization:${token}\""
+	sh "curl -F 'file=@mobile/${app}' http://localhost:8000/api/v1/upload -H \"Authorization:${token}\""
 }
 def scan() {
 	def app ='app.apk'
