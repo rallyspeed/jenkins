@@ -1,7 +1,7 @@
 #!/usr/bin/groovy
 
 def app ='app.apk'
-def token ='3fc39aaa54925c9b4a311322d731023295e0e1618f0668695049b07924ca81ef'
+def apitoken ='3fc39aaa54925c9b4a311322d731023295e0e1618f0668695049b07924ca81ef'
 
 pipeline {
 	agent any
@@ -61,4 +61,5 @@ def CheckReport(port) {
 	
 	sh "md5sum mobile/${app} > hash"
 	def apphash=readFile('hash').trim()
+	sh "echo ${apphash}"
 }
