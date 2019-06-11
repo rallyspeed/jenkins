@@ -52,6 +52,6 @@ def upload() {
 }
 
 def runUAT(port) {
-	sh "chmod mobile/test/runUAT.sh 755"
+	sh "chmod 755 mobile/test/runUAT.sh"
 	sh "mobile/test/runUAT.sh ${port}"
 }
