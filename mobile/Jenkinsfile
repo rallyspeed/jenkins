@@ -57,8 +57,6 @@ def runUAT(port) {
 }
 
 def CheckReport(port) {
-	def apphash=''
-	
 	sh "md5sum mobile/${app} > hash"
 	def apphash=readFile('hash').trim()
 	sh "echo ${apphash}"
