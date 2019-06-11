@@ -9,18 +9,28 @@ pipeline {
 		PYTHONPATH = "${WORKSPACE}"
 	}
    	stages {
-		stage("Test - Unit tests") {
-			steps { runUnittests() }
-		}
-		stage("Build") {
-            		steps { buildApp() }
-		}
-
-        	stage("Deploy - Dev") {
-            		steps { deploy('dev') }
-		}
-		stage("Test - UAT Dev") {
-            		steps { runUAT(8888) }
+        	stage("Deploy - Mobfs") {
+            		steps { deploy('mobfs') }
 		}
 	}
+}
+
+def deploy(environment) {
+
+	def containerName = ''
+	def port = ''
+
+	if ("${environment}" == 'mobfs') {
+		containerName = "mobfs"
+		port = "8888"
+	} 
+	else {
+		println "Environment not valid"
+		System.exit(0)
+	}
+
+	sh "docker ps -f name=${containerName} -q | xargs --no-run-if-empty docker stop"
+	sh "docker ps -a -f name=${containerName} -q | xargs -r docker rm"
+	sh "docker run -d -p ${port}:5000 --name ${containerName} opensecurity/mobile-security-framework-mobfs:latest"
+
 }
