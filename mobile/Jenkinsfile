@@ -15,6 +15,7 @@ pipeline {
    	stages {
         	stage("Deploy - Mobsf") {
 			steps { deploy('mobsf') }
+			steps { runUAT() }
 		}
 		stage("Test - Mobsf") {
             		steps { runUAT() }
