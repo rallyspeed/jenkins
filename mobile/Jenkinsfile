@@ -52,5 +52,5 @@ def upload() {
 }
 
 def runUAT(port) {
-	sh "mobile/tests/runUAT.sh ${port}"
+	sh "mobile/test/runUAT.sh ${port}"
 }
