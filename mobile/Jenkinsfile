@@ -53,7 +53,7 @@ def upload() {
 	def apitoken ='3fc39aaa54925c9b4a311322d731023295e0e1618f0668695049b07924ca81ef'
 	
 	sh "echo ${token}"
-	sh "curl -F 'file=@mobile/${app}' http://localhost:8000/api/v1/upload -H \"Authorization:${token}\""
+	sh "curl -F 'file=@mobile//apk/${app}' http://localhost:8000/api/v1/upload -H \"Authorization:${token}\""
 }
 
 def runUAT(port) {
@@ -63,7 +63,7 @@ def runUAT(port) {
 
 def CheckReport(port) {
 	def app ='app.apk'
-	sh "md5sum mobile/${app} > hash"
+	sh "md5sum mobile/apk/${app} > hash"
 	def hash=readFile('hash').trim()
 	sh "echo ${hash}"
 }
