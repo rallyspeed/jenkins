@@ -42,6 +42,6 @@ def deploy(environment) {
 }
 
 def upload() {
-
+	sh "echo ${token}"
 	sh "curl -F 'file=@${app}' http://localhost:8000/api/v1/upload -H 'Authorization:${token}'"
 }
