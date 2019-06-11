@@ -13,6 +13,9 @@ pipeline {
         	stage("Deploy - Mobsf") {
 			steps { deploy('mobsf') }
 		}
+		stage("Test - Mobsf") {
+            		steps { runUAT(8000) }
+		}
 		stage("Upload APK") {
 			steps { upload() }
 		}
@@ -47,10 +50,7 @@ def upload() {
 	sh "echo ${token}"
 	sh "curl -F 'file=@mobile/${app}' http://localhost:8000/api/v1/upload -H \"Authorization:${token}\""
 }
-def scan() {
-	def app ='app.apk'
-	def token ='3fc39aaa54925c9b4a311322d731023295e0e1618f0668695049b07924ca81ef'
-	def hash ='d7f54dc1d34759b8c25f71c727b413ff'
-	
-	sh "curl -X POST --url http://localhost:8000/api/v1/scan --data \"scan_type=apk&file_name=${app}&hash=${hash}\" -H \"Authorization:${token}\""
+
+def runUAT(port) {
+	sh "mobile/tests/runUAT.sh ${port}"
 }
