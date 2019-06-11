@@ -17,13 +17,13 @@ pipeline {
 			steps { deploy('mobsf') }
 		}
 		stage("Test - Mobsf") {
-            		steps { runUAT(${env.PORT}) }
+            		steps { runUAT("${env.PORT}") }
 		}
 		stage("Upload APK") {
 			steps { upload() }
 		}
 		stage("Check Report") {
-			steps { CheckReport(${env.PORT}) }
+			steps { CheckReport("${env.PORT}") }
 		}
 	}
 }
