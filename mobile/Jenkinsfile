@@ -46,6 +46,8 @@ def deploy(environment) {
 }
 
 def upload() {
+	def app ='app.apk'
+	def apitoken ='3fc39aaa54925c9b4a311322d731023295e0e1618f0668695049b07924ca81ef'
 	
 	sh "echo ${token}"
 	sh "curl -F 'file=@mobile/${app}' http://localhost:8000/api/v1/upload -H \"Authorization:${token}\""
@@ -57,7 +59,8 @@ def runUAT(port) {
 }
 
 def CheckReport(port) {
+	def app ='app.apk'
 	sh "md5sum mobile/${app} > hash"
-	def apphash=readFile('hash').trim()
-	sh "echo ${apphash}"
+	def hash=readFile('hash').trim()
+	sh "echo ${hash}"
 }
