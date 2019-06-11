@@ -14,10 +14,7 @@ pipeline {
    	stages {
         	stage("Deploy - Mobsf") {
             		steps { deploy('mobsf') }
-		}
-	}
-	stages {
-        	stage("Upload APK") {
+		stage("Upload APK") {
             		steps { upload() }
 		}
 	}
