@@ -8,7 +8,7 @@ sleep_time=$2
 sleep ${sleep_time}
 
 # ping the app
-status_code=$(curl -LI '${url}' -w '%{http_code}\n' -o /dev/null -s)
+status_code=$(curl -LI ${url} -w %{http_code} -o /dev/null -s)
 
 if [ $status_code == 200 ];
 then
