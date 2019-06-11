@@ -21,6 +21,9 @@ pipeline {
 		stage("Upload APK") {
 			steps { upload() }
 		}
+		stage("Check Report") {
+			steps { CheckReport(8000) }
+		}
 	}
 }
 
